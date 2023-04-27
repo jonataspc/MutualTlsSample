@@ -24,7 +24,6 @@ builder.Services.AddAuthentication(CertificateAuthenticationDefaults.Authenticat
     options =>
     {
         options.AllowedCertificateTypes = CertificateTypes.All;
-        // options.RevocationFlag = System.Security.Cryptography.X509Certificates.X509RevocationFlag.EndCertificateOnly;
         options.RevocationMode = System.Security.Cryptography.X509Certificates.X509RevocationMode.NoCheck;
         options.Events = new CertificateAuthenticationEvents
         {
