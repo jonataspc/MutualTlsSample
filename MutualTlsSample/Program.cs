@@ -27,6 +27,13 @@ builder.Services.AddAuthentication(CertificateAuthenticationDefaults.Authenticat
         options.RevocationMode = System.Security.Cryptography.X509Certificates.X509RevocationMode.NoCheck;
         options.Events = new CertificateAuthenticationEvents
         {
+            OnAuthenticationFailed = context =>
+            {
+                var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+                logger.LogWarning("Authentication failed: {message} ", context.Exception?.Message);
+                return Task.CompletedTask;
+            },
+
             OnCertificateValidated = context =>
             {
                 var validationService = context.HttpContext.RequestServices.GetRequiredService<ICertificateValidationService>();
@@ -51,7 +58,10 @@ builder.Services.AddAuthentication(CertificateAuthenticationDefaults.Authenticat
                 }
                 else
                 {
-                    context.Fail("Invalid certificate");
+                    var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+                    const string message = "Invalid certificate";
+                    logger.LogWarning(message);
+                    context.Fail(message);
                 }
 
                 return Task.CompletedTask;
