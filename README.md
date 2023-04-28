@@ -7,3 +7,5 @@ The generated certificates are located on the "Certificates" directory.
 The WebAPI validates the client's certificate by checking if its thumbprint exists on the "ClientCertificates" allowable list on the "appsettings.json" file.
 
 In order to test the WebAPI using Postman you must add the client certificate as described <a href="https://learning.postman.com/docs/sending-requests/certificates/#adding-client-certificates">here</a>. Simply add the "child_a_dev.pfx" file.
+
+There is also a client console project ("ClientSample") that consumes the WebAPI using the client certificate.
